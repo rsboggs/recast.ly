@@ -1,8 +1,10 @@
 var options = {
-  query: "dance",
-  max: 5,
-  key: window.YOUTUBE_API_KEY,
-  //only get embedded videos
+  part: 'snippet',
+  q: "Bob Seger",
+  maxResults: 5,
+  type: 'video',
+  videoEmbeddable: true,
+  key: window.YOUTUBE_API_KEY
 };
 
 var searchYouTube = (options, callback) => {
@@ -10,9 +12,11 @@ var searchYouTube = (options, callback) => {
   $.ajax({
     url: 'https://www.googleapis.com/youtube/v3/search',
     type: 'GET',
+    data: options,
     contentType: 'application/json',
     success: function(data){
-      console.log("Data", data);
+      // console.log(data);
+        callback(data);
     },
     error: function(data){
       console.log("error!");

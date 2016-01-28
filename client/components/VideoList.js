@@ -1,6 +1,6 @@
 var VideoList = (props) => (
   <div className="video-list media">
-    {exampleVideoData.map(videoObj =>
+    {props.videoData.map(videoObj =>
         <VideoListEntry onVideoClick={props.onVideoClick} videoObj={videoObj} />
     )}
   </div>
