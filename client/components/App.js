@@ -4,13 +4,15 @@ class App extends React.Component {
     // this is where we will store state, if needed
     this.state = {
       data: exampleVideoData,
-      currentVideo: exampleVideoData[0]
+      currentVideo: exampleVideoData[0],
+      query: "Bob Seger"
     };
   }
+
   componentDidMount(){
     var options = {
       part: 'snippet',
-      q: "Bob Seger",
+      q: this.state.query,
       maxResults: 5,
       type: 'video',
       videoEmbeddable: true,
@@ -28,12 +30,18 @@ class App extends React.Component {
       currentVideo: video
     });
   }
+  onSearch(searchQuery) {
+    console.log(this);
+    this.setState({
+      query: searchQuery
+    });
+  }
 
 
   render () {
     return ( 
       <div>
-        <Nav />
+        <Nav onSearch={this.onSearch.bind(this)}/>
         <div className="col-md-7">
           <VideoPlayer mainVideo={this.state.currentVideo}/>
         </div>
