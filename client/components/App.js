@@ -4,36 +4,28 @@ class App extends React.Component {
     // this is where we will store state, if needed
     this.state = {
       data: exampleVideoData,
-      currentVideo: exampleVideoData[0],
-      query: "Bob Seger"
+      currentVideo: exampleVideoData[0]
     };
   }
-
   componentDidMount(){
-    var options = {
-      part: 'snippet',
-      q: this.state.query,
-      maxResults: 5,
-      type: 'video',
-      videoEmbeddable: true,
-      key: window.YOUTUBE_API_KEY
-    };
-    searchYouTube(options, function(data){
+    this.getYouTubeVideos('Bob Seger');
+  }
+
+  getYouTubeVideos (query) {
+    console.log(query);
+    var key = window.YOUTUBE_API_KEY;
+
+    searchYouTube(query, key, (data) =>
       this.setState({
         data: data.items,
         currentVideo: data.items[0]
-      });
-    }.bind(this));
+      })
+    )    
   }
+
   onVideoClick (video) {
     this.setState({
       currentVideo: video
-    });
-  }
-  onSearch(searchQuery) {
-    console.log(this);
-    this.setState({
-      query: searchQuery
     });
   }
 
@@ -41,7 +33,7 @@ class App extends React.Component {
   render () {
     return ( 
       <div>
-        <Nav onSearch={this.onSearch.bind(this)}/>
+        <Nav onSearch={_.debounce((input) => this.getYouTubeVideos(input),500)}/>
         <div className="col-md-7">
           <VideoPlayer mainVideo={this.state.currentVideo}/>
         </div>

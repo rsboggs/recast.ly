@@ -1,24 +1,23 @@
-var options = {
-  part: 'snippet',
-  q: "Bob Seger",
-  maxResults: 5,
-  type: 'video',
-  videoEmbeddable: true,
-  key: window.YOUTUBE_API_KEY
-};
-
-var searchYouTube = (options, callback) => {
+var searchYouTube = (query, API_key, callback) => {
   // TODO
+  console.log(query);
+  var options = {
+    part: 'snippet',
+    key: 'AIzaSyAwsNEZeN-NVnojdZk_EM4ML5-NMdLJnMI',
+    q: query,
+    maxResults: 5,
+    type: 'video',
+    videoEmbeddable: true
+  };
   $.ajax({
     url: 'https://www.googleapis.com/youtube/v3/search',
     type: 'GET',
     data: options,
     contentType: 'application/json',
-    success: function(data){
-      // console.log(data);
+    success: (data) => {
         callback(data);
     },
-    error: function(data){
+    error: (data) => {
       console.log("error!");
     }
   });
